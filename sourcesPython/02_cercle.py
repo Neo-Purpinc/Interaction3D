@@ -4,9 +4,9 @@ from Vector import *
 
 f = open("animations/02_cercle.pv","w")
 
-time_step = 0.1
+time_step = 0.5
 nb_points = 1
-nb_frames = 150
+nb_frames = 800
 
 # ecriture de l'entete
 f.write("#PV==\n" + str(time_step) + "\n" + str(nb_points) + "\n" + str(nb_frames) + "\n")
@@ -16,7 +16,7 @@ f.write("====\n")
 
 #-------------- animation
 rayon = 1
-vitesse_rotation = 0.5
+vitesse_rotation = 0.1
 position_depart = Vector(0,0,0)
 
 # parcours des frames (images)

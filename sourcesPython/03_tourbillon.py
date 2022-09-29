@@ -6,35 +6,39 @@ import random
 f = open("animations/03_tourbillon.pv","w")
 
 time_step = 0.1
-nb_points = 200
-nb_frames = 600
-
+nb_points = 600
+nb_frames = 200
 max_dist = 3
-# place 10 lignes et 10 colonnes de points
-tous_les_points=[]
-for point in range(nb_points):
+tous_les_points = []  
+
+for i in range(nb_points):
     rayon = random.random()*max_dist
-    # uniformally distributed in a sphere of radius y
-    x = rayon * math.cos(2*math.pi/nb_points*point)
-    z = rayon * math.sin(2*math.pi/nb_points*point)
-    tous_les_points += [Vector(x,0,z)]
+    angle = random.random()*2*math.pi
+    x=rayon*math.cos(angle)
+    z=rayon*math.sin(angle)
+    tous_les_points.append(Vector(x,0,z))
 
 # ecriture de l'entete
 f.write("#PV==\n" + str(time_step) + "\n" + str(nb_points) + "\n" + str(nb_frames) + "\n")
-f.write("Point 0:199\n")
+f.write("Point 0:"+str(nb_points-1)+"\n")
 f.write("====\n")
 
 
 #-------------- animation
 # parcours des frames (images)
-for fr in range(nb_frames):
-    # parcours des points
-    for n in range(nb_points):
-        (x,y,z)=tous_les_points[n].get()
-        rayon = math.sqrt(x*x + z*z)
-        # make the points rotate around the center, with a speed proportional to their distance from the center
-        x = rayon * math.cos(2*math.pi/nb_points*fr - rayon)
-        z = rayon * math.sin(2*math.pi/nb_points*fr - rayon)
+position_depart = Vector(0,0,0)
+for frame in range(nb_frames):
+    for i in range(nb_points):
+        (x,y,z)=tous_les_points[i].get()
         f.write(str(x) + " " + str(y) + " " + str(z) + "\n")
+        # update position inversement proportionnelle au rayon
+        rayon = tous_les_points[i].module()
+        angle = math.atan2(z,x) # angle entre le point et l'axe des x
+        angle += rayon
+        x=rayon*math.cos(angle)
+        z=rayon*math.sin(angle)
+        tous_les_points[i].set(x,y,z)
+
+
 
 f.close()
