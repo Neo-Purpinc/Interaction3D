@@ -7,7 +7,7 @@ f = open("animations/03_tourbillon.pv","w")
 
 time_step = 0.1
 nb_points = 600
-nb_frames = 200
+nb_frames = 600
 max_dist = 3
 tous_les_points = []  
 
@@ -34,7 +34,7 @@ for frame in range(nb_frames):
         # update position inversement proportionnelle au rayon
         rayon = tous_les_points[i].module()
         angle = math.atan2(z,x) # angle entre le point et l'axe des x
-        angle += rayon
+        angle += 0.05/rayon
         x=rayon*math.cos(angle)
         z=rayon*math.sin(angle)
         tous_les_points[i].set(x,y,z)
@@ -42,3 +42,4 @@ for frame in range(nb_frames):
 
 
 f.close()
+    

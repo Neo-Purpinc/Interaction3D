@@ -12,7 +12,6 @@ max_dist = 3
 tous_les_points = []  
 
 for i in range(nb_points):
-    # place les points aléatoirement dans le plan y = 0
     x = random.uniform(-max_dist,max_dist)
     z = random.uniform(-max_dist,max_dist)
     tous_les_points.append(Vector(x,0,z))
@@ -30,14 +29,11 @@ for frame in range(nb_frames):
     for i in range(nb_points):
         (x,y,z)=tous_les_points[i].get()
         f.write(str(x) + " " + str(y) + " " + str(z) + "\n")
-        vecteur_vitesse = tous_les_points[i] - I
-        intensite = 1/vecteur_vitesse.module()
-        x = x + intensite*vecteur_vitesse.x/100
-        y = y + intensite*vecteur_vitesse.y/100
-        z = z + intensite*vecteur_vitesse.z/100
+        direction = (tous_les_points[i] - I).unit()
+        intensite = 1/(tous_les_points[i] - I).module()
+        vecteur_vitesse = direction*intensite
+        x = x + vecteur_vitesse.x*time_step
+        y = y + vecteur_vitesse.y*time_step
+        z = z + vecteur_vitesse.z*time_step
         tous_les_points[i].set(x,y,z)
-
-        
-
-
 f.close()
